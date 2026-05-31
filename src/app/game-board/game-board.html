@@ -1,0 +1,65 @@
+<main class="min-vh-100 py-2 py-lg-3 text-white bg-dark bg-gradient position-relative overflow-hidden">
+    <div class="container position-relative" #boardRoot>
+        <section #hero class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-2 mb-3">
+            <div class="pe-lg-5">
+                <p class="text-uppercase text-warning fw-semibold small mb-2">Memo 4x4</p>
+                <h1 class="display-5 fw-bold mb-3">Znajdź wszystkie pary</h1>
+                <p class="lead text-white-50 mb-0">
+                    Odkrywaj po dwie karty naraz i spróbuj zamknąć całą planszę w jak najmniejszej liczbie ruchów.
+                </p>
+            </div>
+
+            <button type="button" class="btn btn-warning btn-lg fw-semibold rounded-pill px-4 shadow"
+                (click)="startNewGame()">Nowa gra</button>
+        </section>
+
+        <section #stats class="row g-3 mb-3" aria-label="statystyki gry">
+            <div class="col-12 col-md-4">
+                <div class="card border-0 bg-black bg-opacity-25 text-white rounded-4 h-100">
+                    <div class="card-body">
+                        <p class="text-uppercase text-white-50 small mb-2">Ruchy</p>
+                        <div class="fs-2 fw-bold lh-1">{{ moves() }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card border-0 bg-black bg-opacity-25 text-white rounded-4 h-100">
+                    <div class="card-body">
+                        <p class="text-uppercase text-white-50 small mb-2">Par</p>
+                        <div class="fs-2 fw-bold lh-1">{{ pairsFound() }} / 8</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card border-0 bg-black bg-opacity-25 text-white rounded-4 h-100"
+                    [class.border-success]="completed">
+                    <div class="card-body">
+                        <p class="text-uppercase text-white-50 small mb-2">Status</p>
+                        <div class="fs-2 fw-bold lh-1">{{ completed ? 'Ukończono' : 'W trakcie' }}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section #boardGrid class="board-grid" aria-label="plansza gry memo">
+            <ng-container *ngFor="let card of cards(); trackBy: trackCard">
+                <div class="board-item">
+                    <button type="button" class="btn p-0 w-100 border-0 flip-card"
+                        [class.is-revealed]="card.revealed || card.matched" [class.is-matched]="card.matched"
+                        [disabled]="locked() || card.matched" (click)="flipCard(card.id)"
+                        [attr.aria-label]="card.revealed || card.matched ? 'Karta ' + card.symbol : 'Zakryta karta'">
+                        <span class="flip-card-inner">
+                            <span
+                                class="flip-card-face flip-card-back card bg-black bg-opacity-25 text-white border border-white border-opacity-10 rounded-4 shadow-sm">?</span>
+                            <span
+                                class="flip-card-face flip-card-front card bg-warning-subtle text-dark border border-warning-subtle rounded-4 shadow-sm">{{
+                                card.symbol }}</span>
+                        </span>
+                    </button>
+                </div>
+            </ng-container>
+        </section>
+    </div>
+</main>

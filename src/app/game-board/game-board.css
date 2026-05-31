@@ -1,0 +1,99 @@
+:host {
+    display: block;
+}
+
+.board-grid {
+    width: 100%;
+}
+
+/* Use CSS Grid to enforce a responsive 4x4 (or 2x8 on small screens) layout */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    width: 100%;
+    /* Limit width based on available viewport height so the grid fits vertically */
+    max-width: min(100%, calc(100vh - 320px));
+    margin-inline: auto;
+}
+
+/* Board items are square using aspect-ratio; this keeps a tidy 4x4 grid */
+.board-item {
+    width: 100%;
+}
+
+.flip-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    perspective: 1200px;
+    display: block;
+}
+
+.flip-card:disabled {
+    cursor: default;
+}
+
+.flip-card-inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 220ms ease;
+}
+
+.flip-card.is-revealed .flip-card-inner,
+.flip-card.is-matched .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    backface-visibility: hidden;
+    /* responsive font: small on narrow viewports, scales with viewport width */
+    font-size: clamp(1.1rem, 4.5vw, 2.5rem);
+    font-weight: 700;
+}
+
+/* Ensure the inner content fills the card area */
+.flip-card-inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 220ms ease;
+}
+
+.flip-card-front {
+    transform: rotateY(180deg);
+}
+
+.flip-card.is-matched .flip-card-front {
+    box-shadow: 0 0 0 1px rgba(25, 135, 84, 0.35), 0 0.5rem 1rem rgba(25, 135, 84, 0.12);
+}
+
+/* make gaps responsive */
+@media (max-width: 576px) {
+    .board-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 992px) {
+    .board-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (min-width: 993px) {
+    .board-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+}

@@ -18,6 +18,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, memo');
+    expect(compiled.querySelector('app-game-board')).toBeTruthy();
+    expect(compiled.querySelectorAll('button').length).toBeGreaterThanOrEqual(17);
   });
 });
